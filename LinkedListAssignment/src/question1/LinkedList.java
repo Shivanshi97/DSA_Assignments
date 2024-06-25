@@ -32,9 +32,9 @@ public class LinkedList {
 		}
 		while (temp.getNext() != null) {
 			temp = temp.getNext();
-			if (temp.getData() == data) {
-				return false;
-			}
+//			if (temp.getData() == data) {
+//				return false;
+//			}
 		}
 
 		temp.setNext(newNode);
@@ -187,36 +187,35 @@ public class LinkedList {
 			System.out.print(temp.getData() + " ");
 			count++;
 			temp = temp.getNext();
-			
+
 		}
 		System.out.println("\nLength of Linked List: " + count);
 		return count;
 	}
-	
-	//to find the middle element of a singly linked list in one pass
-	public int displayMiddleElement(){
-		
+
+	// to find the middle element of a singly linked list in one pass
+	public int displayMiddleElement() {
+
 		Node temp1 = head;
 		Node temp2 = head;
-		int count=0;
+		int count = 0;
 
-		if(head==null) {
+		if (head == null) {
 			System.out.println("Linked List is Empty");
 		}
-		
-		while (temp1.getNext()!= null && temp1.getNext().getNext() != null) {
-		// not working for empty LL	
+
+		while (temp1.getNext() != null && temp1.getNext().getNext() != null) {
+			// not working for empty LL
 			temp1 = temp1.getNext().getNext();
 			temp2 = temp2.getNext();
-			count++;					// finding the middle index of the LL
-			
+			count++; // finding the middle index of the LL
+
 		}
-		System.out.println("Middle Element: "+temp2.getData()+ " index: "+ count);
-		return count+1;
+		System.out.println("Middle Element: " + temp2.getData() + " index: " + count);
+		return count + 1;
 	}
-		
-	
-	//to remove duplicates from a sorted linked list
+
+	// to remove duplicates from a sorted linked list
 	public boolean deleteDuplicateinSortedList(int data) {
 		if (head == null) {
 			return false;
@@ -239,23 +238,106 @@ public class LinkedList {
 		prev.setNext(del.getNext());
 		return true;
 	}
-	
+
+	//sorting Linked List
 	public void sortLL() {
-		Node temp = head;
-		Node n1 = head;
-		Node n2 = head.getNext();
-		
+		Node temp;
+		boolean swap;
 		System.out.println("Sorted LL 1: ");
-		while(temp != null && temp.getNext() != null)
-		{
-			if(n1.getData()>n2.getData()) {
-				temp = n2.getNext();
-				n2.setNext(n1);
-				n1 = n2;
-				n2 = temp;
+		
+		do {
+			temp = head;
+			swap=false;
+			
+			while (temp!=null && temp.getNext() != null) {
+				if (temp.getData() > temp.getNext().getData()) {
+	                // Swap two adjacent nodes
+	                int tempData = temp.getData();
+	                temp.setData(temp.getNext().getData());
+	                temp.getNext().setData(tempData);
+	                swap=true;
+	            }
+	            temp = temp.getNext();
 			}
+		}while(swap);
+	}
+
+	//to Merge A Linked List Into Another Linked List At Alternate Positions
+	public void merge(LinkedList l2) {
+		Node a_current=head;
+		Node a_next;
+		
+		Node b_current=l2.head;
+		Node b_next;
+		
+		while(a_current!=null && b_current!=null) {
+			
+			a_next=a_current.getNext();
+			b_next=b_current.getNext();
+			
+			if(a_current!=null)
+				b_current.setNext(a_next);
+			a_current.setNext(b_current);
+			
+			a_current=a_next;
+			b_current=b_next;
+		}	
+		
+	}
+
+	//to remove duplicates from a sorted linked list
+	public void delDupFromSortedList(LinkedList l) {
+		l.sortLL();
+		l.display();
+		Node temp=head;
+		
+		if(head==null)
+			return;
+		
+		while(temp!=null && temp.getNext()!=null) {
+			while(temp.getData()==temp.getNext().getData())
+			{
+				temp.setNext(temp.getNext().getNext());
+			}
+			temp=temp.getNext();
 		}
 		
-		System.out.println("Sorted LL 2: ");
 	}
+
+	//to find the third node from the end in a singly linked list
+	public void findThirdNodeFromEnd() {
+		int count=length();
+		
+		if(count<3) {
+			return;
+		}
+		
+		Node temp=head;
+		for(int i=1;i<count-2;i++) {
+			temp=temp.getNext();
+		}
+		
+		System.out.println(temp.getData());
+	}
+	
+	//to remove Nth Node from the end of a linked list 
+	public void removeNthNode(int position) {
+		Node temp=head;
+		Node prev=head;
+		
+		if(head==null)
+			return;
+		
+		int count=length();
+		
+		for(int i=1;i<count-position-1;i++) {
+			prev=temp;
+			temp=temp.getNext();
+		}
+		prev.setNext(temp.getNext());
+	}
+	
+	//to merge two sorted linked list
+	
+
 }
